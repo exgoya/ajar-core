@@ -18,14 +18,17 @@
 - 모든 YAML 문법 파싱 통과.
 - 고정한 checkout v4.2.2, setup-python v5.6.0의 SHA를 GitHub 태그와 대조했습니다.
 - [초기 실제 GitHub Actions Validate 실행 성공](https://github.com/exgoya/ajar-core/actions/runs/39924638281).
-  이 실행은 초기 테스트 14개와 등록부 검증을 수행했습니다. 추가 테스트는 후속 Validate 실행 대상입니다.
+  이 실행은 초기 테스트 14개와 등록부 검증을 수행했습니다.
+- [후속 실제 Validate 실행 성공](https://github.com/exgoya/ajar-core/actions/runs/39924822750):
+  추가 테스트를 포함한 18개와 등록부 검증이 통과했습니다.
 - 테스트의 AI/프로젝트 생성 경로는 **모의 API**입니다. 예제 로그 URL은 실제 자식 저장소 생성 결과가 아닙니다.
 
 ## 미완료 및 미실행
 - OPENAI_API_KEY, AJAR_REPO_TOKEN, OPENAI_MODEL은 아직 미설정입니다. 비밀을 코드에 넣지 않았습니다.
 - 실제 유료 AI 호출, 기획 PR 생성, 승인 후 Sub Project 생성의 전체 연결 실행은 하지 않았습니다.
-- Actions의 PR 생성·승인 허용 옵션은 자동 승인 검토가 보안 설정 변경으로 거부하여 유지했습니다.
-  명시적 사용자 승인을 요청했습니다. 워크플로 자체에는 PR 자동 승인 기능이 없습니다.
+- Actions의 PR 생성·승인 허용 옵션은 초기 자동 승인 검토 거부 후 사용자에게 명시적 승인을 받았습니다.
+  승인 후 can_approve_pull_request_reviews=true 적용을 API로 확인했습니다.
+  기본 권한은 read이며, 워크플로 자체에는 PR 자동 승인 기능이 없습니다.
 - 설정 후 실제 아이디어 Issue 하나로 기획 생성부터 등록까지 운영 안내의 순서로 검증해야 합니다.
 - 라이선스, 최종 브랜드·시각 정체성, 공개/배포 정책은 미확정입니다.
 
