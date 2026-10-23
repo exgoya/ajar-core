@@ -6,7 +6,7 @@ body:
   - type: textarea
     id: opportunity
     attributes:
-      label: 어떤 가능성을 열고 싶나요?
-      description: 대상, 작은 실험, 성공·중단 조건, 시간·비용 상한을 적어주세요. 비밀이나 개인정보는 제외합니다.
+      label: 어떤 순간에 곁에 있고 싶나요?
+      description: 사용자가 찾아올 순간, 머물거나 다시 돌아올 경험을 적어주세요. 실행 범위·시간·비용 상한도 함께 생각합니다. 비밀이나 개인정보는 제외합니다.
     validations:
       required: true
