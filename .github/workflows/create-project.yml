@@ -1,0 +1,43 @@
+name: Create project
+on:
+  workflow_dispatch:
+    inputs:
+      pr:
+        description: Proposal PR merged into main by exgoya
+        required: true
+        type: string
+      apply:
+        description: Actually create a private repository (false = dry run)
+        required: true
+        type: boolean
+        default: false
+permissions:
+  contents: write
+  pull-requests: write
+concurrency:
+  group: ajar-project-creation
+  cancel-in-progress: false
+jobs:
+  create:
+    if: github.actor == 'exgoya' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
+        with:
+          python-version: '3.12'
+      - name: Validate approval and create
+        run: |
+          if [ "$APPLY" = "true" ]; then
+            python scripts/ajar.py create --pr "$PROPOSAL_PR" --apply
+          else
+            python scripts/ajar.py create --pr "$PROPOSAL_PR"
+          fi
+        env:
+          PROPOSAL_PR: ${{ inputs.pr }}
+          APPLY: ${{ inputs.apply }}
+          GH_TOKEN: ${{ github.token }}
+          AJAR_REPO_TOKEN: ${{ inputs.apply && secrets.AJAR_REPO_TOKEN || '' }}

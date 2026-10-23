@@ -1,0 +1,12 @@
+name: 새로운 실험
+description: 부담 없이 시작할 독립 실험 제안
+
+title: "[Idea] "
+body:
+  - type: textarea
+    id: opportunity
+    attributes:
+      label: 어떤 가능성을 열고 싶나요?
+      description: 대상, 작은 실험, 성공·중단 조건, 시간·비용 상한을 적어주세요. 비밀이나 개인정보는 제외합니다.
+    validations:
+      required: true
