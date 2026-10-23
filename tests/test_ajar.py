@@ -84,7 +84,7 @@ class Tests(unittest.TestCase):
         self.assertTrue(any('/contents/projects/small-door.json' in c[0] for c in calls))
     @patch.dict(os.environ, {'GH_TOKEN':'test', 'AJAR_REPO_TOKEN':'creator'})
     def test_existing_repository_never_modified(self):
-        api=FakeAPI(); api.optional=lambda path: {'name':'existing'}
+        api=FakeAPI(); api.optional=lambda path: {'name':'existing'} if path == 'repos/exgoya/ajar-small-door' else None
         with patch.object(ajar, 'API', return_value=api), self.assertRaises(ValueError):
             ajar.create(SimpleNamespace(pr='1', apply=True))
         self.assertTrue(all(method == 'GET' for _,method,_ in api.calls))
@@ -109,5 +109,31 @@ class Tests(unittest.TestCase):
         self.assertFalse(payload['store'])
         self.assertEqual(payload['text']['format']['type'],'json_schema')
         self.assertTrue(any(c[0].endswith('/pulls') and c[1]=='POST' for c in api.calls))
+
+    @patch.dict(os.environ, {'GH_TOKEN':'test', 'AJAR_REPO_TOKEN':'creator'})
+    def test_wrong_creator_account_has_no_writes(self):
+        api=FakeAPI(); original=api.call
+        api.call=lambda path,*args: {'login':'someone-else'} if path=='user' else original(path,*args)
+        with patch.object(ajar,'API',return_value=api), self.assertRaises(ValueError):
+            ajar.create(SimpleNamespace(pr='1',apply=True))
+        self.assertTrue(all(c[1]=='GET' for c in api.calls))
+    @patch.dict(os.environ, {'GH_TOKEN':'test', 'AJAR_REPO_TOKEN':'creator'})
+    def test_non_template_has_no_writes(self):
+        api=FakeAPI(); original=api.call
+        api.call=lambda path,*args: {'is_template':False,'private':True} if path=='repos/exgoya/ajar-template' else original(path,*args)
+        with patch.object(ajar,'API',return_value=api), self.assertRaises(ValueError):
+            ajar.create(SimpleNamespace(pr='1',apply=True))
+        self.assertTrue(all(c[1]=='GET' for c in api.calls))
+    @patch.dict(os.environ, {'GH_TOKEN':'test','OPENAI_API_KEY':'fake','OPENAI_MODEL':'configured-model'})
+    def test_incomplete_ai_response_has_no_writes(self):
+        api=FakeAPI(); original=api.call
+        api.call=lambda path,*args: {'title':'Idea','body':'x','state':'open'} if '/issues/' in path else original(path,*args)
+        response={'status':'incomplete','output':[]}
+        with patch.object(ajar,'API',return_value=api), patch.object(ajar.urllib.request,'urlopen',return_value=io.BytesIO(json.dumps(response).encode())), self.assertRaises(ValueError):
+            ajar.generate(SimpleNamespace(issue='2'))
+        self.assertTrue(all(c[1]=='GET' for c in api.calls))
+    def test_http_failure_never_becomes_missing_repo(self):
+        with patch.object(ajar.urllib.request,'urlopen',side_effect=HTTPError('url',403,'denied',{},None)), self.assertRaises(HTTPError):
+            ajar.API('fake').optional('repos/exgoya/ajar-small-door')
 
 if __name__ == '__main__': unittest.main()
