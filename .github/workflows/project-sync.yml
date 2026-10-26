@@ -1,0 +1,32 @@
+name: AJAR Project sync
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '17 * * * *'
+  issues:
+    types: [opened, edited, closed, reopened, labeled, unlabeled]
+  workflow_run:
+    workflows: [Agent develop, Agent verification, Validate, Generate plan, Create project]
+    types: [requested, completed]
+permissions:
+  contents: read
+concurrency:
+  group: ajar-project-sync
+  cancel-in-progress: false
+jobs:
+  sync:
+    if: github.repository == 'exgoya/ajar-core' && vars.AJAR_PROJECT_NUMBER != ''
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      # Always use trusted default-branch code. Never execute PR code or artifacts.
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          ref: main
+          persist-credentials: false
+          sparse-checkout: scripts
+      - name: Reconcile issues and PRs
+        env:
+          GH_TOKEN: ${{ secrets.AJAR_PROJECT_TOKEN }}
+          AJAR_PROJECT_NUMBER: ${{ vars.AJAR_PROJECT_NUMBER }}
+        run: python3 -B scripts/sync_project.py
