@@ -1,0 +1,37 @@
+name: Agent develop
+on:
+  workflow_dispatch:
+    inputs:
+      issue:
+        description: 'Approved open Issue number'
+        required: true
+        type: string
+permissions: {}
+concurrency:
+  group: ajar-paid-agent
+  cancel-in-progress: false
+jobs:
+  propose:
+    if: github.actor == 'exgoya' && github.ref == 'refs/heads/main' && github.repository == 'exgoya/ajar-core'
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    environment: ajar-agent
+    permissions:
+      contents: write
+      issues: read
+      pull-requests: write
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          persist-credentials: false
+      - name: Generate bounded draft PR
+        env:
+          GH_TOKEN: ${{ github.token }}
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          OPENAI_MODEL: ${{ vars.OPENAI_MODEL }}
+          AJAR_ENABLED: ${{ vars.AJAR_ENABLED }}
+          AJAR_INPUT_USD_M: ${{ vars.AJAR_INPUT_USD_M }}
+          AJAR_OUTPUT_USD_M: ${{ vars.AJAR_OUTPUT_USD_M }}
+          AJAR_RUN_USD: ${{ vars.AJAR_RUN_USD }}
+          ISSUE_NUMBER: ${{ inputs.issue }}
+        run: python3 agent-mvp/runner.py --issue "$ISSUE_NUMBER"
