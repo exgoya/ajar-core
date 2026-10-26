@@ -1,4 +1,5 @@
 name: Agent develop
+run-name: "Agent develop · Issue #${{ inputs.issue }}"
 on:
   workflow_dispatch:
     inputs:
