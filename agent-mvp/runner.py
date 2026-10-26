@@ -60,7 +60,9 @@ def reserve_cost():
 
 
 def model(role, context, schema):
+    brand = (ROOT.parent / 'docs' / 'brand-draft.md').read_text()
     prompt = (ROOT / 'prompts' / (role + '.md')).read_text()
+    prompt += '\nAJAR 브랜드 방향 (docs/brand-draft.md):\n' + brand
     data = json.dumps(context, ensure_ascii=False)
     if len((prompt + data).encode()) > LIMIT:
         raise ValueError('Context too large; stopped before API call')
