@@ -1,4 +1,7 @@
 import copy
+import io
+from contextlib import redirect_stdout
+from urllib.error import HTTPError
 import os
 from pathlib import Path
 import sys
@@ -104,5 +107,60 @@ class Tests(unittest.TestCase):
             self.assertFalse(payload['store'])
             self.assertEqual(payload['max_output_tokens'], 3000)
             self.assertNotIn('tools', payload)
+
+
+class DiagnosticsTests(unittest.TestCase):
+    def setUp(self):
+        runner.ATTEMPTS = runner.RESPONSES = 0
+
+    def test_before_api_has_zero_attempts(self):
+        output = io.StringIO()
+        with redirect_stdout(output), patch.object(runner, 'request') as request:
+            try:
+                runner.model('planning', {'issue': 'x'*25000}, runner.PLAN)
+            except ValueError as error:
+                runner.stopped(error)
+        request.assert_not_called()
+        self.assertIn('stage=planning.prepare', output.getvalue())
+        self.assertIn('api_attempts=0 api_responses=0', output.getvalue())
+        self.assertIn('Context too large', output.getvalue())
+
+    @patch.dict(os.environ, {'OPENAI_MODEL': 'test', 'OPENAI_API_KEY': 'fake-secret'})
+    def test_http_status_without_sensitive_error_message(self):
+        output = io.StringIO()
+        error = HTTPError('https://example.invalid/private', 429, 'fake-secret', {}, None)
+        with redirect_stdout(output), patch.object(runner, 'request', side_effect=error):
+            try:
+                runner.model('planning', {}, runner.PLAN)
+            except HTTPError as caught:
+                runner.stopped(caught)
+        log = output.getvalue()
+        self.assertIn('stage=planning.api_request', log)
+        self.assertIn('http_status=429', log)
+        self.assertIn('api_attempts=1 api_responses=0', log)
+        self.assertNotIn('fake-secret', log)
+        self.assertNotIn('example.invalid', log)
+
+    @patch.dict(os.environ, {'OPENAI_MODEL': 'test', 'OPENAI_API_KEY': 'fake-secret'})
+    def test_response_received_before_parse_failure_and_safe_usage(self):
+        response = {'status': 'completed', 'usage': {'input_tokens': 10, 'output_tokens': 2,
+                    'total_tokens': 'fake-secret'}, 'output': [{'type': 'message',
+                    'content': [{'type': 'output_text', 'text': 'fake-secret invalid JSON'}]}]}
+        output = io.StringIO()
+        with redirect_stdout(output), patch.object(runner, 'request', return_value=response):
+            try:
+                runner.model('review', {}, runner.REPORT)
+            except ValueError as error:
+                runner.stopped(error)
+        log = output.getvalue()
+        self.assertIn('stage=review.parse', log)
+        self.assertIn('api_attempts=1 api_responses=1', log)
+        self.assertIn('"input_tokens": 10', log)
+        self.assertNotIn('fake-secret', log)
+
+    def test_unknown_exception_text_never_logged(self):
+        output = io.StringIO()
+        with redirect_stdout(output): runner.stopped(ValueError('fake-secret'))
+        self.assertNotIn('fake-secret', output.getvalue())
 
 if __name__ == '__main__': unittest.main()
