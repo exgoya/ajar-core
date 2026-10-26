@@ -52,3 +52,9 @@ Actions는 checkout SHA를 고정했습니다. Python 컨테이너 태그는 갱
 
 API 구조 근거: https://developers.openai.com/api/docs/guides/structured-outputs
 Actions 보안 근거: https://docs.github.com/en/actions/reference/security/secure-use
+
+## 실패 진단
+
+로그에는 실패 단계, 고정된 검사 사유, HTTP 상태 코드, OpenAI 요청 시도 수와 응답 수를 남깁니다. 응답에 사용량이 있으면 숫자 토큰 수만 기록합니다. Issue·모델 출력 원문·임의 예외 메시지·응답 본문·키는 출력하지 않습니다.
+`api_attempts=0`은 이 실행에서 OpenAI 요청을 시도하지 않았다는 뜻입니다. 요청 시도는 있지만 응답이 없는 경우 실제 처리·과금 여부는 확정할 수 없습니다. 토큰 숫자는 응답이 제공한 수치이며 청구서 확인을 대신하지 않습니다.
+기존 실패 실행의 숨겨진 원인은 이 변경으로 복원할 수 없습니다. 자동 재시도와 기존 잠금 해제는 추가하지 않습니다.
