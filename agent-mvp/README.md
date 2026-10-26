@@ -58,3 +58,7 @@ Actions 보안 근거: https://docs.github.com/en/actions/reference/security/sec
 로그에는 실패 단계, 고정된 검사 사유, HTTP 상태 코드, OpenAI 요청 시도 수와 응답 수를 남깁니다. 응답에 사용량이 있으면 숫자 토큰 수만 기록합니다. Issue·모델 출력 원문·임의 예외 메시지·응답 본문·키는 출력하지 않습니다.
 `api_attempts=0`은 이 실행에서 OpenAI 요청을 시도하지 않았다는 뜻입니다. 요청 시도는 있지만 응답이 없는 경우 실제 처리·과금 여부는 확정할 수 없습니다. 토큰 숫자는 응답이 제공한 수치이며 청구서 확인을 대신하지 않습니다.
 기존 실패 실행의 숨겨진 원인은 이 변경으로 복원할 수 없습니다. 자동 재시도와 기존 잠금 해제는 추가하지 않습니다.
+
+### AI 중단 사유 코드
+
+Orchestrator와 review의 판단은 고정된 코드만 로그에 남깁니다. `scope_exceeded` 범위 초과, `ambiguous_requirements` 요구 불명확, `security_concern` 보안 우려, `brand_mismatch` 브랜드 불일치, `implementation_bug` 구현 버그, `insufficient_tests` 테스트 부족, `other` 기타입니다. 허용 시 `allowed`입니다. 알 수 없는 코드나 판단과 맞지 않는 코드는 중단합니다. 자유 서술 reason은 로그에 출력하지 않습니다. 사유 코드는 모델의 분류이며 사실 확정이 아닙니다. 기존 실행의 사유는 복원되지 않습니다.
