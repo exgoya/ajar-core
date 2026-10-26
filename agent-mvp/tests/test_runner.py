@@ -34,7 +34,7 @@ class Fake:
 def models(role, context, schema):
     if role == 'developer': return {'files': copy.deepcopy(FILES)}
     if role == 'planning': return {'scope': 'greet', 'acceptance': 'works', 'risks': 'none'}
-    return {'decision': 'proceed', 'reason': 'checked'}
+    return {'decision': 'proceed', 'reason_code': 'allowed', 'reason': 'checked'}
 
 class Tests(unittest.TestCase):
     def test_paths_and_secrets(self):
@@ -79,7 +79,7 @@ class Tests(unittest.TestCase):
             fake = Fake()
             def generate(role, context, schema):
                 if role == failure:
-                    if failure == 'review': return {'decision': 'stop', 'reason': 'bug'}
+                    if failure == 'review': return {'decision': 'stop', 'reason_code': 'implementation_bug', 'reason': 'bug'}
                     raise TimeoutError()
                 return models(role, context, schema)
             with patch.object(runner, 'api', fake), patch.object(runner, 'model', side_effect=generate):
@@ -162,5 +162,36 @@ class DiagnosticsTests(unittest.TestCase):
         output = io.StringIO()
         with redirect_stdout(output): runner.stopped(ValueError('fake-secret'))
         self.assertNotIn('fake-secret', output.getvalue())
+
+
+class DecisionTests(unittest.TestCase):
+    def test_all_stop_codes_are_safe_and_visible(self):
+        for code in runner.REASON_CODES:
+            if code == 'allowed': continue
+            output = io.StringIO()
+            with redirect_stdout(output), self.assertRaises(runner.SafeStop):
+                runner.check_decision('orchestrator', {'decision':'stop', 'reason_code':code,
+                                                       'reason':'fake-secret original issue text'})
+            self.assertIn('reason_code='+code, output.getvalue())
+            self.assertNotIn('fake-secret', output.getvalue())
+    def test_invalid_and_inconsistent_codes_fail_closed(self):
+        for report in [None, {}, {'decision':'stop','reason_code':'fake-secret'},
+                       {'decision':'proceed','reason_code':'security_concern'},
+                       {'decision':'stop','reason_code':'allowed'}]:
+            output = io.StringIO()
+            with redirect_stdout(output), self.assertRaises(runner.SafeStop):
+                runner.check_decision('review', report)
+            self.assertNotIn('fake-secret', output.getvalue())
+    def test_allowed_can_continue(self):
+        with redirect_stdout(io.StringIO()):
+            runner.check_decision('orchestrator', {'decision':'proceed','reason_code':'allowed','reason':'ok'})
+    @patch.dict(os.environ, ENV)
+    def test_orchestrator_stop_prevents_later_calls_and_pr(self):
+        fake = Fake()
+        with patch.object(runner,'api',fake), patch.object(runner,'model',return_value={
+             'decision':'stop','reason_code':'ambiguous_requirements','reason':'private detail'}) as model:
+            with redirect_stdout(io.StringIO()), self.assertRaises(runner.SafeStop): runner.run('6')
+        self.assertEqual(model.call_count,1)
+        self.assertFalse(any(path.endswith('/pulls') for path,_,_ in fake.calls))
 
 if __name__ == '__main__': unittest.main()

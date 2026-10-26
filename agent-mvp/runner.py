@@ -119,7 +119,28 @@ def obj(properties):
 
 
 TEXT = {'type': 'string'}
-REPORT = obj({'decision': {'type': 'string', 'enum': ['proceed', 'stop']}, 'reason': TEXT})
+REASON_CODES = ('allowed', 'scope_exceeded', 'ambiguous_requirements', 'security_concern',
+                'brand_mismatch', 'implementation_bug', 'insufficient_tests', 'other')
+REPORT = obj({'decision': {'type': 'string', 'enum': ['proceed', 'stop']},
+              'reason_code': {'type': 'string', 'enum': list(REASON_CODES)}, 'reason': TEXT})
+
+
+def check_decision(role, report):
+    # Only schema-defined codes may reach logs, never arbitrary model reasoning.
+    if role not in ('orchestrator', 'review'):
+        raise SafeStop('Invalid decision role')
+    stage(role + '.decision')
+    if not isinstance(report, dict):
+        raise SafeStop('Invalid decision report')
+    decision, code = report.get('decision'), report.get('reason_code')
+    if decision not in ('proceed', 'stop') or code not in REASON_CODES:
+        raise SafeStop('Invalid decision or reason code')
+    if (decision == 'proceed') != (code == 'allowed'):
+        raise SafeStop('Inconsistent decision and reason code')
+    print(f'AJAR decision role={role} decision={decision} reason_code={code}', flush=True)
+    if decision == 'stop':
+        # role and code are both checked against fixed values.
+        raise SafeStop('Agent decision stopped; see reason_code')
 PLAN = obj({'scope': TEXT, 'acceptance': TEXT, 'risks': TEXT})
 FILES = obj({'files': {'type': 'array', 'items': obj({'path': TEXT, 'content': TEXT})}})
 
@@ -149,8 +170,7 @@ def run(issue_number):
     api(f'repos/{REPO}/git/refs', 'POST', {'ref': 'refs/heads/' + branch, 'sha': base})
     context = {'issue': {'title': issue['title'], 'body': issue.get('body') or ''}}
     stage('orchestrator')
-    if model('orchestrator', context, REPORT)['decision'] != 'proceed':
-        raise SafeStop('Orchestrator stopped')
+    check_decision('orchestrator', model('orchestrator', context, REPORT))
     stage('planning')
     context['plan'] = model('planning', context, PLAN)
     # Deliberately scoped to new independent modules; existing source is not sent.
@@ -160,8 +180,7 @@ def run(issue_number):
     files = validate_files(generated)
     stage('review')
     review = model('review', {**context, 'files': files}, REPORT)
-    if review['decision'] != 'proceed':
-        raise SafeStop('Review stopped')
+    check_decision('review', review)
     stage('files.collision_check')
     tree = api(f'repos/{REPO}/git/commits/{base}')['tree']['sha']
     existing = api(f'repos/{REPO}/git/trees/{tree}?recursive=1')
