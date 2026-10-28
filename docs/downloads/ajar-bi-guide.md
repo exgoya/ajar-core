@@ -137,3 +137,14 @@ SVG가 제작 원본이다. PNG는 미리보기와 일반 적용용이다. 흰�
 - 참고: [Polestar / Stockholm Design Lab](https://www.stockholmdesignlab.se/work/polestar)의 담백한 타입 운영과 역할 분리, Airbnb의 선형 심볼과 소문자 비례. AJAR의 고유 자산으로 재구성했다.
 
 SVG를 실제로 렌더링해 큰 조합과 축소 조합, 밝은 배경·녹색 배경을 검토했다. 기본 자산 4색, 토큰, 문서, BI 보드와 다운로드 패키지를 함께 업데이트한다.
+
+
+## 10. 앱 아이콘·파비콘 패키지
+
+`brand/assets/icons/`에 플랫폼별 에셋을 추가했다. 아이콘에는 C1 독립 심볼만 사용한다. 기본은 녹색 바탕·라임 심볼이며 밝은 바탕·녹색 심볼 대안도 제공한다.
+
+- iOS: 1024 불투명 원본, AppIcon.appiconset, 앱 내부 SVG template imageset.
+- Android: launcher 5 density, adaptive foreground/background, API 33 monochrome 및 24dp 알림 벡터.
+- 웹: SVG·16/32/48 ICO·크기별 PNG·180 터치 아이콘·192/512 일반 및 maskable 아이콘·manifest.
+- favicon.svg 및 16·32px PNG는 작은 크기용으로 선 굵기만 12로 보정했다. C1 경로는 그대로며 기본 앱 아이콘은 굵기 10이다.
+- 자세한 적용과 검증 범위는 [아이콘 README](assets/icons/README.md)를 따른다. 실제 앱 빌드와 스토어 업로드는 별도 검증 대상이다.
