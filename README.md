@@ -8,8 +8,8 @@
 **[AJAR 웹사이트 · BI 가이드](https://exgoya.github.io/ajar-core/)** · [BI 자산 다운로드](https://exgoya.github.io/ajar-core/downloads/ajar-bi-v1.zip)
 
 ## 구성
-- `docs/index.html`: GitHub Pages 공개 웹페이지 — C1 심볼과 Outfit Regular 400 전체 워드마크
-- [`docs/brand-identity.md`](docs/brand-identity.md): BI v1.2 사용 가이드
+- `docs/index.html`: GitHub Pages 공개 웹페이지 — C1 심볼과 Outfit Light 300 전체 워드마크
+- [`docs/brand-identity.md`](docs/brand-identity.md): BI v1.3 사용 가이드
 - `brand/assets/`: 심볼·워드마크·가로 조합 SVG/PNG, Outfit과 라이선스, 컬러 토큰
 - `docs/brand-draft.md`: 브랜드 철학과 미확정 항목
 - `docs/operations.md`: 설정, 실행, 승인, 복구 절차
