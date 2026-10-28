@@ -9,6 +9,8 @@
 
 [앱 아이콘·파비콘 패키지](https://exgoya.github.io/ajar-core/downloads/ajar-app-icons.zip) · [적용 안내](brand/assets/icons/README.md)
 
+[디자인 아이디어 이미지](https://exgoya.github.io/ajar-core/#design-ideas) · [원본 다운로드](https://exgoya.github.io/ajar-core/downloads/ajar-design-ideas.zip)
+
 ## 구성
 - `docs/index.html`: GitHub Pages 공개 웹페이지 — C1 심볼과 Outfit Light 300 전체 워드마크
 - [`docs/brand-identity.md`](docs/brand-identity.md): BI v1.3 사용 가이드

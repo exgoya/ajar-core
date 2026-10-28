@@ -1,0 +1,30 @@
+{
+  "date": "2026-10-29",
+  "tool": "built-in image_gen",
+  "status": "concept",
+  "brandDefinition": "1.2",
+  "identity": "1.3",
+  "assets": [
+    {
+      "name": "open-form",
+      "source": "open-form.png",
+      "web": "open-form.webp",
+      "width": 1536,
+      "height": 1024
+    },
+    {
+      "name": "paper-application",
+      "source": "paper-application.png",
+      "web": "paper-application.webp",
+      "width": 1536,
+      "height": 1024
+    },
+    {
+      "name": "mobile-application",
+      "source": "mobile-application.png",
+      "web": "mobile-application.webp",
+      "width": 1536,
+      "height": 1024
+    }
+  ]
+}
