@@ -2,7 +2,7 @@
 상태: MVP / 2026-10-23
 
 ## 1. 저장소 및 Actions
-- `exgoya/ajar-core`: Private, 기본 브랜치 main
+- `exgoya/ajar-core`: Public, 기본 브랜치 main (2026-10-28 소유자 공개 승인)
 - `exgoya/ajar-template`: Private, Settings → Template repository 활성화
 - core Settings → Actions → General: Actions 실행 허용. Workflow permissions에서
   **Allow GitHub Actions to create and approve pull requests**를 활성화합니다.
@@ -76,7 +76,7 @@ core의 등록부에 승인 기획 전체와 원본 PR/commit 링크가 있어 �
 
 ## 5. 확장과 한계
 MVP는 문서·승인·독립 저장소 생성·등록에 집중합니다. 배포, 일정 예약, 자동 콘텐츠 발행,
-자식 프로젝트 상태 동기화는 포함하지 않습니다. 브랜드, 로고, 라이선스, 공개 정책은 미확정입니다.
+자식 프로젝트 상태 동기화는 포함하지 않습니다. 브랜드 문구는 Brand Definition v1.1, 로고와 웹 자산은 [BI v1.2](brand-identity.md)를 따릅니다. core 공개와 자식 프로젝트 공개는 별개입니다.
 main의 스크립트·워크플로를 변경할 권한을 가진 계정은 Secret에도 영향을 줄 수 있으므로,
 향후 공동 운영 시 보호 규칙·GitHub App·환경 검토자를 별도로 설계합니다.
 
@@ -84,3 +84,13 @@ main의 스크립트·워크플로를 변경할 권한을 가진 계정은 Secre
 - [OpenAI Structured Outputs](https://developers.openai.com/api/docs/guides/structured-outputs)
 - [GitHub template 생성 API](https://docs.github.com/en/rest/repos/repos#create-a-repository-using-a-template)
 - [GITHUB_TOKEN 권한](https://docs.github.com/en/actions/tutorials/authenticate-with-github_token)
+
+## GitHub Pages
+
+- 주소: https://exgoya.github.io/ajar-core/
+- 배포 소스: `main` 브랜치 `/docs`, 정적 HTML. `docs/.nojekyll`로 별도 Jekyll 변환을 생략합니다.
+- 공개 페이지는 현재 브랜드 정의와 BI만 담습니다. 이전 비공개 Sites의 시안 비교 도구는 포함하지 않습니다.
+- `brand/assets/`는 기준 자산이고 `docs/assets/bi/`는 Pages 제공용 복사본입니다. 수동으로 두 위치를 함께 반영합니다. ZIP 안의 가이드도 현재 공개 브랜드 문구와 일치시킵니다.
+- 공개 승인 범위는 ajar-core입니다. `ajar-template`과 Sub Project의 Private 설정은 유지합니다.
+- 공개 전 기존 Git 이력의 71개 blob 및 Issue·PR 본문에서 자격 증명 패턴이 발견되지 않았습니다. 값은 출력하지 않았습니다.
+- 배포 후 GitHub Pages API의 상태와 인증 없는 HTTP 응답을 확인합니다.

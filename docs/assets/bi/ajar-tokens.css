@@ -1,0 +1,16 @@
+@font-face {
+  font-family: "Outfit";
+  src: url("./Outfit-Variable.ttf") format("truetype");
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+:root {
+  --ajar-paper: #F2F0E8;
+  --ajar-moss: #26392D;
+  --ajar-lime: #DBEA5C;
+  --ajar-font: "Outfit", "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
+  --ajar-wordmark-weight: 400;
+  --ajar-body-size: 16px;
+  --ajar-body-line-height: 1.7;
+}

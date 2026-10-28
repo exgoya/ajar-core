@@ -1,0 +1,31 @@
+{
+  "brand": "AJAR",
+  "version": "1.2",
+  "symbol": "C1",
+  "wordmark": {
+    "text": "ajar",
+    "family": "Outfit",
+    "weight": 400,
+    "trackingEm": 0,
+    "allCharactersFromFont": true
+  },
+  "colors": {
+    "paper": "#F2F0E8",
+    "moss": "#26392D",
+    "lime": "#DBEA5C",
+    "black": "#000000",
+    "white": "#FFFFFF"
+  },
+  "typography": {
+    "latin": "Outfit",
+    "body": "Outfit, \"Apple SD Gothic Neo\", \"Malgun Gothic\", sans-serif",
+    "bodySize": 16,
+    "bodyLineHeight": 1.7
+  },
+  "logoRules": {
+    "clearSpaceStrokeMultiples": 2,
+    "minSymbolWidthPx": 24,
+    "minWordmarkWidthPx": 120,
+    "minLockupWidthPx": 200
+  }
+}
