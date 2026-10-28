@@ -1,8 +1,8 @@
 # AJAR Core
 
-**AJAR — 언제든 열려 있는.**
-일상 속 다양한 경험과 생각을 자유롭게 나누고 제안하는 라이프스타일 브랜드입니다.
-[Brand Definition v1.1](docs/brand-draft.md)을 기준으로 서로 다른 프로젝트를 연결합니다.
+**AJAR — 언제든 열려 있는**
+열려 있는 상태 자체를 정체성으로 삼는 브랜드입니다. 현재의 형태를 가지면서도 새로운 생각과 다음 변화가 들어올 여지를 남깁니다.
+[Brand Definition v1.2](docs/brand-draft.md)을 기준으로 서로 다른 프로젝트를 연결합니다.
 개인 계정 `exgoya`가 운영합니다. ajar-core는 Public으로 공개하며, 생성되는 Sub Project는 각 프로젝트의 별도 결정 전까지 Private입니다.
 
 **[AJAR 웹사이트 · BI 가이드](https://exgoya.github.io/ajar-core/)** · [BI 자산 다운로드](https://exgoya.github.io/ajar-core/downloads/ajar-bi-v1.zip)
@@ -35,7 +35,7 @@ AI 결과만으로 생성하거나 공개하지 않습니다. 기획·생성은 
 
 ## 웹사이트 업데이트
 
-GitHub Pages는 `main` 브랜치의 `/docs` 폴더를 배포합니다. `docs/index.html`과 `docs/assets/bi/`, `docs/downloads/`를 함께 업데이트하고 main에 반영하면 자동으로 게시됩니다. 브랜드 문구는 [Brand Definition v1.1](docs/brand-draft.md)을 따릅니다. 배포 구성은 [운영 안내](docs/operations.md#github-pages)를 참고하세요.
+GitHub Pages는 `main` 브랜치의 `/docs` 폴더를 배포합니다. `docs/index.html`과 `docs/assets/bi/`, `docs/downloads/`를 함께 업데이트하고 main에 반영하면 자동으로 게시됩니다. 브랜드 문구는 [Brand Definition v1.2](docs/brand-draft.md)을 따릅니다. 배포 구성은 [운영 안내](docs/operations.md#github-pages)를 참고하세요.
 
 ## 로컬 검증
 Python 3.11 이상, 외부 Python 패키지 불필요:
