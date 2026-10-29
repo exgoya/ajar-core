@@ -11,6 +11,8 @@
 
 [디자인 아이디어 이미지](https://exgoya.github.io/ajar-core/#design-ideas) · [원본 다운로드](https://exgoya.github.io/ajar-core/downloads/ajar-design-ideas.zip)
 
+[서브 프로젝트 디자인 가이드](docs/subproject-design-guide.md) · [시작용 UI 토큰](brand/assets/subprojects/ajar-product-tokens.css)
+
 ## 구성
 - `docs/index.html`: GitHub Pages 공개 웹페이지 — C1 심볼과 Outfit Light 300 전체 워드마크
 - [`docs/brand-identity.md`](docs/brand-identity.md): BI v1.3 사용 가이드

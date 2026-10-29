@@ -1,0 +1,81 @@
+/* AJAR subproject UI proposal v1.0 — scope opt-in, not a component library. */
+.ajar-ui {
+  --ui-bg: #F2F0E8;
+  --ui-surface: #FFFFFF;
+  --ui-text: #26392D;
+  --ui-text-muted: #596457;
+  --ui-brand: #26392D;
+  --ui-accent: #DBEA5C;
+  --ui-action: #26392D;
+  --ui-on-action: #F2F0E8;
+  --ui-border: #7B8877;
+  --ui-divider: #D3D8CD;
+  --ui-success: #27633D;
+  --ui-warning: #80500B;
+  --ui-danger: #A12B32;
+  --ui-info: #285B7A;
+  --ui-focus: #26392D;
+  --ui-font: "Outfit", "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
+  --ui-space-1: 4px;
+  --ui-space-2: 8px;
+  --ui-space-3: 12px;
+  --ui-space-4: 16px;
+  --ui-space-5: 24px;
+  --ui-space-6: 32px;
+  --ui-space-7: 48px;
+  --ui-space-8: 64px;
+  --ui-radius-control: 8px;
+  --ui-radius-card: 12px;
+  --ui-radius-panel: 16px;
+  --ui-content-max: 1120px;
+  --ui-reading-max: 680px;
+  color: var(--ui-text);
+  background: var(--ui-bg);
+  font-family: var(--ui-font);
+  font-size: 16px;
+  line-height: 1.6;
+}
+/* Font files must be bundled separately with their license; no remote import. */
+.ajar-ui .ui-button {
+  min-height: 44px;
+  min-width: 44px;
+  padding: 10px 16px;
+  border: 1px solid var(--ui-action);
+  border-radius: var(--ui-radius-control);
+  background: var(--ui-action);
+  color: var(--ui-on-action);
+  font: 500 16px/1.4 var(--ui-font);
+  cursor: pointer;
+}
+.ajar-ui .ui-button--secondary {
+  background: transparent;
+  color: var(--ui-action);
+}
+.ajar-ui .ui-button:hover:not(:disabled) { text-decoration: underline; }
+.ajar-ui .ui-button:active:not(:disabled) { box-shadow: inset 0 0 0 2px currentColor; }
+.ajar-ui .ui-button:disabled { cursor: not-allowed; opacity: .55; }
+.ajar-ui .ui-input {
+  box-sizing: border-box;
+  width: 100%;
+  min-height: 44px;
+  padding: 10px 12px;
+  border: 1px solid var(--ui-border);
+  border-radius: var(--ui-radius-control);
+  color: var(--ui-text);
+  background: var(--ui-surface);
+  font: 400 16px/1.4 var(--ui-font);
+}
+.ajar-ui .ui-input[aria-invalid="true"] { border: 2px solid var(--ui-danger); }
+/* Two-color ring also remains visible around dark buttons and on light panels. */
+.ajar-ui :focus-visible {
+  outline: 2px solid var(--ui-focus);
+  outline-offset: 3px;
+  box-shadow: 0 0 0 3px var(--ui-surface);
+}
+@media (prefers-reduced-motion: reduce) {
+  .ajar-ui, .ajar-ui *, .ajar-ui *::before, .ajar-ui *::after {
+    animation: none !important;
+    transition: none !important;
+    scroll-behavior: auto !important;
+  }
+}
