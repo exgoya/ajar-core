@@ -1,22 +1,14 @@
 # AJAR Core
 
-**AJAR — 언제든 열려 있는**
-열려 있는 상태 자체를 정체성으로 삼는 브랜드입니다. 현재의 형태를 가지면서도 새로운 생각과 다음 변화가 들어올 여지를 남깁니다.
-[Brand Definition v1.2](docs/brand-draft.md)을 기준으로 서로 다른 프로젝트를 연결합니다.
+**AJAR — 항상 조금 열어둔다**
+정하고 실행하되, 바뀔 여지를 일부러 남깁니다.
+[Brand Definition v2.0](docs/brand-draft.md)을 기준으로 서로 다른 프로젝트를 연결합니다.
 개인 계정 `exgoya`가 운영합니다. ajar-core는 Public으로 공개하며, 생성되는 Sub Project는 각 프로젝트의 별도 결정 전까지 Private입니다.
 
-**[AJAR 웹사이트 · BI 가이드](https://exgoya.github.io/ajar-core/)** · [BI 자산 다운로드](https://exgoya.github.io/ajar-core/downloads/ajar-bi-v1.zip)
-
-[앱 아이콘·파비콘 패키지](https://exgoya.github.io/ajar-core/downloads/ajar-app-icons.zip) · [적용 안내](brand/assets/icons/README.md)
-
-[디자인 아이디어 이미지](https://exgoya.github.io/ajar-core/#design-ideas) · [원본 다운로드](https://exgoya.github.io/ajar-core/downloads/ajar-design-ideas.zip)
-
-[서브 프로젝트 디자인 가이드](docs/subproject-design-guide.md) · [시작용 UI 토큰](brand/assets/subprojects/ajar-product-tokens.css)
+[AJAR 웹사이트](https://exgoya.github.io/ajar-core/) · 로고·컬러 등 시각 아이덴티티는 처음부터 다시 작업 중입니다.
 
 ## 구성
-- `docs/index.html`: GitHub Pages 공개 웹페이지 — C1 심볼과 Outfit Light 300 전체 워드마크
-- [`docs/brand-identity.md`](docs/brand-identity.md): BI v1.3 사용 가이드
-- `brand/assets/`: 심볼·워드마크·가로 조합 SVG/PNG, Outfit과 라이선스, 컬러 토큰
+- `docs/index.html`: GitHub Pages 공개 웹페이지 — 브랜드 문구만 담은 임시 페이지
 - `docs/brand-draft.md`: 브랜드 철학과 미확정 항목
 - `docs/operations.md`: 설정, 실행, 승인, 복구 절차
 - `proposals/`: 검토할 AI 기획 JSON
@@ -41,7 +33,7 @@ AI 결과만으로 생성하거나 공개하지 않습니다. 기획·생성은 
 
 ## 웹사이트 업데이트
 
-GitHub Pages는 `main` 브랜치의 `/docs` 폴더를 배포합니다. `docs/index.html`과 `docs/assets/bi/`, `docs/downloads/`를 함께 업데이트하고 main에 반영하면 자동으로 게시됩니다. 브랜드 문구는 [Brand Definition v1.2](docs/brand-draft.md)을 따릅니다. 배포 구성은 [운영 안내](docs/operations.md#github-pages)를 참고하세요.
+GitHub Pages는 `main` 브랜치의 `/docs` 폴더를 배포합니다. `docs/index.html`을 업데이트하고 main에 반영하면 자동으로 게시됩니다. 브랜드 문구는 [Brand Definition v2.0](docs/brand-draft.md)을 따릅니다. 배포 구성은 [운영 안내](docs/operations.md#github-pages)를 참고하세요.
 
 ## 로컬 검증
 Python 3.11 이상, 외부 Python 패키지 불필요:
