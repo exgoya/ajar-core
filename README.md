@@ -5,7 +5,7 @@
 [Brand Definition v2.0](docs/brand-draft.md)을 기준으로 서로 다른 프로젝트를 연결합니다.
 개인 계정 `exgoya`가 운영합니다. ajar-core는 Public으로 공개하며, 생성되는 Sub Project는 각 프로젝트의 별도 결정 전까지 Private입니다.
 
-[AJAR 웹사이트](https://exgoya.github.io/ajar-core/) · 로고·컬러 등 시각 아이덴티티는 처음부터 다시 작업 중입니다.
+[AJAR 웹사이트](https://exgoya.github.io/ajar-core/) · 로고는 두지 않으며, 색과 서체는 작업 중입니다.
 
 ## 구성
 - `docs/index.html`: GitHub Pages 공개 웹페이지 — 브랜드 문구만 담은 임시 페이지
